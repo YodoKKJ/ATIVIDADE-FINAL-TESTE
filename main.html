@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Area Quadrilatero</title>
+</head>
+<body>
+    <h2>Calcular area de um Quadrilatero qualquer!</h2>
+    <input id="num1" type="number" placeholder="Lado 1 (em metros)">
+    <input id="num2" type="number" placeholder="Lado 2 (em metros)">
+    <button id="btn1" onclick="calcular(area)"> Calcular</button>
+    <h4 id="texto">Nenhum resultado foi calculado ate o momento</h4>
+
+    <button id="btn2" onclick="testeUnitario()"> Rodar Testes Unitarios</button>
+    <div id="textoUnit"></div>
+
+    <button id="btn3" onclick="testeComponentes()">Rodar Testes de Componentes</button>
+    <div id="textoComp"></div>
+
+</body>
+<script>
+    // comentando pq acho que o codigo ficou confuso kkkk dai vou explica oq cada coisa faz
+
+     function calcular(funcao) { // funcao calucar ela solicitar a outra funcao como paramentro e aq nela em si so pega os valores e é resposavel pela mensagem exibida
+      const n1 = parseFloat(document.getElementById("num1").value);
+      const n2 = parseFloat(document.getElementById("num2").value);
+      const mensagem = document.getElementById("texto")
+
+      mensagem.textContent = `A area do Quadrilatero calculado é ${funcao(n1, n2)} m²`
+
+    }
+
+    function area(n1,n2){ // essa funcao é a fncao que a outra chama que dai sim calculas as coiass tem validacao para valor menor que 0
+        if (n1 < 0 || n2 < 0){
+            return "Lado menor que 0 Quadrilatero inexistente"
+        } else {
+            return n1 * n2
+        }
+    }
+
+    function testeUnitario() { // fn que fz os testes mesmo chamando outra funcao 
+      document.getElementById("textoUnit").innerHTML = "";
+      testar("Calcular area de um quadrado 2x2    ", area(2,2), 4)
+      testar("Calcular area de um retangulo 3x5    ", area(3,5), 15)
+      testar("Calcular area com lado zero  ", area(0,5), 0)
+      testar("Calcular area com lado menor que 0  ", area(-1,0), "Lado menor que 0 Quadrilatero inexistente")
+      testar("Calcular area com lado menor que 0", area(1,-4), "Lado menor que 0 Quadrilatero inexistente")
+    }
+
+    function testar(descricao, resultado, esperado) { // essa fn é que cada teste da fn testeUnitario chama para validar os paramentros
+        const div = document.getElementById("textoUnit")
+
+        if (resultado == esperado){
+            div.innerHTML += `Correto: ${descricao}<br>`;
+        } else {
+            div.innerHTML += `Incorreto: ${descricao}<br>`;
+        }
+    }
+
+
+    function testarComp(descricao, componente) { // essa fn segue a mesma logica da de validar testUnit pois essa aq confere se o valor existe e mostra a mensagem
+        const div = document.getElementById("textoComp")
+
+        if (componente) {
+            div.innerHTML += `Encontrado: ${descricao}<br>`;
+        } else {
+            div.innerHTML += `Nao encontrado: ${descricao}<br>`;
+        }
+    }
+
+    function testeComponentes(){ // essa fn chama a testarComp passando como paramentro a descricao e o Elemnento do HTML que vai ser testado
+        
+        document.getElementById("textoComp").innerHTML = "";
+
+        testarComp("input num1", document.getElementById("num1"))
+
+        testarComp("input num2", document.getElementById("num2"))
+
+        testarComp("botao calcular (btn1)", document.getElementById("btn1"))
+
+        testarComp("texto resultado (texto)", document.getElementById("texto"))
+
+        testarComp("botao testes unitarios (btn2)", document.getElementById("btn2"))
+
+        testarComp("div testes unitarios (textoUnit)", document.getElementById("textoUnit"))
+
+        testarComp("botao testes componentes (btn3)", document.getElementById("btn3"))
+
+        testarComp("div testes componentes (textoComp)", document.getElementById("textoComp"))
+    }
+
+
+</script>
+</html>
